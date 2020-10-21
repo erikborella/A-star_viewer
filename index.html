@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+
+    <body>
+        <nav>
+            <div class="nav-wrapper white">
+                <a href="#" class="brand-logo black-text">A* Viewer</a>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="center">
+                <br>
+                <canvas id="screen" width="700" height="400" style="border: 1px solid black;">
+
+                </canvas>
+            </div>
+
+            <div>
+                <div id="runModeDiv" class="row">
+                    <div class="col s3 offset-s1">
+                        <h6>View Mode</h6>
+                        <label title="Distance to initial node">
+                            <input checked class="with-gap" type="radio" name="viewsModeGroup">
+                            <span>Normal</span>
+                        </label>
+                        <br>
+                        <label title="Distance to initial node">
+                            <input class="with-gap" type="radio" name="viewsModeGroup">
+                            <span>H Cost</span>
+                        </label>
+                        <br>
+                        <label title="Euclidian distance to final node">
+                            <input class="with-gap" type="radio" name="viewsModeGroup">
+                            <span>G Cost</span>
+                        </label>
+                        <br>
+                        <label title="H Cost + G Cost">
+                            <input class="with-gap" type="radio" name="viewsModeGroup">
+                            <span>Total Cost</span>
+                        </label>
+                        <br>
+                        <label title="Direction to previous node">
+                            <input class="with-gap" type="radio" name="viewsModeGroup">
+                            <span>Direction</span>
+                        </label>
+                    </div>
+                    <div class="col s4 center">
+                        <h6>Controls</h6>
+                        <div class="switch">
+                            <label>
+                                Step
+                                <input type="checkbox" id="switchControls">
+                                <span class="lever"></span>
+                                Continuous
+                            </label>
+                        </div>
+                        <br>
+                        <div id="stepControls">
+                            <a class="waves-effect waves-green btn-small white black-text">
+                                <i class="material-icons right">forward</i>
+                                Next Step
+                            </a>
+                        </div>
+                        <div id="continuousControls">
+                            <p class="range-field">
+                                Steps per second
+                                <input type="range" id="continuousSteps" min="1" max="25" value="1"/>
+                            </p>
+                            <a class="waves-effect waves-green btn-small white black-text">
+                                <i class="material-icons right">play_arrow</i>
+                                Run
+                            </a>
+                            <a class="waves-effect waves-yellow btn-small white black-text">
+                                <i class="material-icons right">pause</i>
+                                Stop
+                            </a>
+                        </div>
+                        <br>
+                        <a class="waves-effect waves-red btn-small white black-text">
+                            <i class="material-icons right">repeat</i>
+                            Reset
+                        </a>
+                    </div>
+                    <div class="col s3 offset-s1">
+                        <h6>Log</h6>
+                        <div class="input-field">
+                            <textarea id="logTextarea" class="materialize-textarea"></textarea>
+                        </div>                  
+                    </div>
+                </div>
+                <div id="editModeDiv">
+                    <div class="row">
+                        <div class="col s3 offset-s3">
+                            <h6>Node editor</h6>
+                            <label title="Where the maze starts">
+                                <input class="with-gap" type="radio" name="editorNodeGroup" checked>
+                                <span>Initial Node</span>
+                            </label>
+                            <label title="Where the maze ends">
+                                <input class="with-gap" type="radio" name="editorNodeGroup">
+                                <span>Final Node</span>
+                            </label>
+                            <br>
+                            <label title="Where is not possible to go">
+                                <input class="with-gap" type="radio" name="editorNodeGroup">
+                                <span>Wall</span>
+                            </label>
+                        </div>
+                        <div class="col s3 center">
+                            <h6>Randomize Walls</h6>
+                            <div class="input-field">
+                                <input id="percentageRandomGeneratorInput" type="number" min="0" max="75" class="validate">
+                                <label for="percentageRandomGeneratorInput">Percentage of Walls</label>
+                            </div>
+                            <a class="waves-effect waves-yellow btn-small white black-text">
+                                <i class="material-icons right">loop</i>
+                                Generate    
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="center">
+                    <h6>Edit Mode</h6>
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" id="switchEditMode">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <script type="text/javascript" src="js/materialize.min.js"></script>
+    </body>
+
+</html>
