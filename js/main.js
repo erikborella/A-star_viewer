@@ -1,11 +1,14 @@
 "use strict";
 
 let isEditModeOn = false;
+let aStar;
 
 $(document).ready(function() {
     $('.tooltipped').tooltip();
     $("#continuousControls").hide();
     $("#editModeDiv").hide();
+
+    init();
 });
 
 $("#switchControls").change(function() {
@@ -32,3 +35,8 @@ $("#switchEditMode").change(function() {
         $("#runModeDiv").show();
     }
 });
+
+function init() {
+    aStar = new AStar(20, 10, {x: 0, y: 4}, {x: 19, y: 9});
+    draw(10);
+}
