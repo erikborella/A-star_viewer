@@ -61,7 +61,7 @@
                         </div>
                         <br>
                         <div id="stepControls">
-                            <a class="waves-effect waves-green btn-small white black-text">
+                            <a class="waves-effect waves-green btn-small white black-text" id="nextStepButton">
                                 <i class="material-icons right">forward</i>
                                 Next Step
                             </a>
@@ -69,13 +69,13 @@
                         <div id="continuousControls">
                             <p class="range-field">
                                 Steps per second
-                                <input type="range" id="continuousSteps" min="1" max="25" value="1"/>
+                                <input type="range" id="continuousStepsRange" min="1" max="100" value="1"/>
                             </p>
-                            <a class="waves-effect waves-green btn-small white black-text">
+                            <a class="waves-effect waves-green btn-small white black-text" id="runStepperButton">
                                 <i class="material-icons right">play_arrow</i>
                                 Run
                             </a>
-                            <a class="waves-effect waves-yellow btn-small white black-text">
+                            <a class="waves-effect waves-yellow btn-small white black-text" id="stopStepperButton">
                                 <i class="material-icons right">pause</i>
                                 Stop
                             </a>
@@ -144,8 +144,8 @@
         <script type="text/javascript" src="js/aStar/AStar.js"></script>
         
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>
         <script type="text/javascript" src="js/materialize.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
     </body>
 
 </html>
