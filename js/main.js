@@ -42,7 +42,12 @@ $("#switchEditMode").change(function() {
 
 $("#continuousStepsRange").change(function() {
     stepsPerSecond = $(this).val();
-    stepsPerSecond = parseInt(stepsPerSecond);
+    stepsPerSecond = parseFloat(stepsPerSecond);
+
+    if (stepper != null) {
+        stopAStar();
+        runAStar();
+    }
 });
 
 $("#nextStepButton").click(function() {
@@ -50,12 +55,10 @@ $("#nextStepButton").click(function() {
 });
 
 $("#runStepperButton").click(function() {
-    stepper = setInterval(() => {
-        stepAStar();
-    }, 1000 / stepsPerSecond);
+    runAStar();
 })
 
-$("stopStepperButton").click(function() {
+$("#stopStepperButton").click(function() {
     stopAStar();
 });
 
@@ -88,7 +91,7 @@ function stepAStar() {
             break;
         
         case "end":
-            logText = logText.replace(/^/, `End`);
+            logText = logText.replace(/^/, `End\n\n`);
             stopAStar();
             break;
     }
@@ -97,8 +100,15 @@ function stepAStar() {
     M.textareaAutoResize($('#logTextarea'));
 }
 
+function runAStar() {
+    stepper = setInterval(() => {
+        stepAStar();
+    }, 1000 / stepsPerSecond);
+}
+
 function stopAStar() {
     if (stepper != null) {
         clearInterval(stepper);
+        stepper = null;
     }
 }
