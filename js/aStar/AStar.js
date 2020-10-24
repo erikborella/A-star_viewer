@@ -12,6 +12,9 @@ class AStar {
         this.board = this._generateBoard(hSize, vSize);
         this.initialNode = this.board[initialNodePosition.y][initialNodePosition.x];
         this.finalNode = this.board[finalNodePosition.y][finalNodePosition.x];
+
+        this.stepMark = "sn-i";
+        this.workingNode = null;
     }
     
     /**
@@ -149,6 +152,34 @@ class AStar {
             return this._getPrePaths();    
         } else {
             return this._getPathToInitial(this.finalNode);
+        }
+    }
+
+    step() {
+        switch (this.stepMark) {
+            case "sn-i":
+                this.workingNode = this.initialNode;
+                this.stepMark = "on";
+                return {'name': 'sn-i'};
+
+            case "on":
+                this.openAdjacentNodes(this.workingNode);
+                this.stepMark = "cfa";
+                return {'name': 'on'};
+
+            case "cfa":
+                const status = this.isFinalAdjacent(this.workingNode);
+                this.stepMark = (status) ? "end":"fmn";
+                return {'name': 'cfa', 'status': status};
+
+            case "fmn":
+                const node = this.findNodeMinorCost();
+                this.workingNode = node;
+                this.stepMark = "on";
+                return {'name': 'fmn', 'status': node};
+
+            case "end":
+                return {'name': 'end', 'status': 'end'};
         }
     }
 }
