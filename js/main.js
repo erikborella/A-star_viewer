@@ -119,9 +119,11 @@ function stepAStar() {
 }
 
 function runAStar() {
-    stepper = setInterval(() => {
-        stepAStar();
-    }, 1000 / stepsPerSecond);
+    if (stepper == null) {
+        stepper = setInterval(() => {
+            stepAStar();
+        }, 1000 / stepsPerSecond);
+    }
 }
 
 function stopAStar() {
