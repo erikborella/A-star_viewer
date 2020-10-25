@@ -62,9 +62,28 @@ $("#stopStepperButton").click(function() {
     stopAStar();
 });
 
+$("#resetAStarButton").click(function() {
+
+    stopAStar();
+
+    const initialNodePosition = {
+        x: aStar.initialNode.x,
+        y: aStar.initialNode.y,
+    };
+    const finalNodePosition = {
+        x: aStar.finalNode.x,
+        y: aStar.finalNode.y,
+    };
+
+    aStar = new AStar(20, 10, initialNodePosition, finalNodePosition);
+
+    logText = "";
+    setLogText();
+});
+
 function init() {
     aStar = new AStar(20, 10, {x: 0, y: 4}, {x: 19, y: 9});
-    draw(10);
+    draw(aStar);
 }
 
 function stepAStar() {
@@ -96,8 +115,7 @@ function stepAStar() {
             break;
     }
 
-    $("#logTextarea").text(logText);
-    M.textareaAutoResize($('#logTextarea'));
+    setLogText();
 }
 
 function runAStar() {
@@ -111,4 +129,9 @@ function stopAStar() {
         clearInterval(stepper);
         stepper = null;
     }
+}
+
+function setLogText() {
+    $("#logTextarea").text(logText);
+    M.textareaAutoResize($('#logTextarea'));
 }

@@ -1,7 +1,12 @@
 "use strict";
 
-function draw(vSize) {
-    let c = document.getElementById("screenCanvas");
+let c = document.getElementById("screenCanvas");
+
+/**
+ * 
+ * @param {AStar} aStar 
+ */
+function draw(aStar) {
     let context = c.getContext('2d');
 
     const w = c.width;
@@ -9,6 +14,7 @@ function draw(vSize) {
 
     context.clearRect(0, 0, w, h);
     
+    const vSize = aStar.board.length;
     const sqrH = h / vSize;
             
     for(let y = 0; y < vSize; y++) {
