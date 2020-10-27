@@ -182,4 +182,24 @@ class AStar {
                 return {'name': 'end', 'status': 'end'};
         }
     }
+
+    reset() {
+        for (let y = 0; y < this.board.length; y++) {
+            for (let x = 0; x < this.board[0].length; x++) {
+                const node = this.board[y][x];
+
+                if (!node.isWall) {
+                    node.gCost = 0;
+                    node.hCost = 0
+                    node.totalCost = 0;
+                    node.isOpen = false;
+                    node.lastNode = null;
+
+                }
+
+                this.stepMark = 'sn-i';
+                this.workingNode = null;
+            }
+        }
+    }
 }
