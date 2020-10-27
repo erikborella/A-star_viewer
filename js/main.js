@@ -68,21 +68,8 @@ $("#resetAStarButton").click(function() {
 
     stopAStar();
 
-    const initialNodePosition = {
-        x: aStar.initialNode.x,
-        y: aStar.initialNode.y,
-    };
-    const finalNodePosition = {
-        x: aStar.finalNode.x,
-        y: aStar.finalNode.y,
-    };
-
-    aStar = new AStar(20, 10, initialNodePosition, finalNodePosition);
-
-    logText = "";
-    setLogText();
-
-    // draw(aStar);
+    aStar.reset();
+    drawer.redraw();
 });
 
 function init() {
