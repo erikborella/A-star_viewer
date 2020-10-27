@@ -165,7 +165,7 @@ class AStar {
             case "on":
                 this.openAdjacentNodes(this.workingNode);
                 this.stepMark = "cfa";
-                return {'name': 'on'};
+                return {'name': 'on', 'status': {'of': this.workingNode}};
 
             case "cfa":
                 const status = this.isFinalAdjacent(this.workingNode);

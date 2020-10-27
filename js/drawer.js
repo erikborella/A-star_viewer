@@ -1,67 +1,172 @@
 "use strict";
 
-let c = document.getElementById("screenCanvas");
+class Drawer {
 
-function fillNode(context, node, sqrH, color, text = null) {
-    const padding = 0;
+    /**
+     * 
+     * @param {AStar} aStar 
+     */
+    constructor(aStar, elementId) {
+        this.c = document.getElementById(elementId);
+        this.context = this.c.getContext('2d');
+        
+        this.aStar = aStar;
 
-    const x = node.x;
-    const y = node.y;    
+        this.w = this.c.width;
+        this.h = this.c.height;
 
-    const drawX = x * sqrH;
-    const drawY = y * sqrH;
+        this.vSize = aStar.board.length;
+        this.sqrH = this.h / this.vSize;
 
-    const paddingX = sqrH;
-    const paddingY = sqrH;
-    
-    context.fillStyle = color;
-
-    context.fillRect(drawX, drawY, paddingX, paddingY);
-
-    if (text != null) {
-        text = String(text);
-        context.fillStyle='black';
-        context.font=`${sqrH / (text.length)}px Arial`;
-        context.textAlign='center';
-        context.fillText(text, (x * sqrH) + sqrH / 2, (y * sqrH) + sqrH * 6/7);
+        this.viewMode = 'n';
     }
-}
 
-// context.fillText(text, drawX + sqrH / 2, drawY + sqrH * 6/7, sqrH);
+    updateSize(aStar) {
+        this.aStar = aStar;
 
-/**
- * 
- * @param {AStar} aStar 
- */
-function draw(aStar) {
-    let context = c.getContext('2d');
+        this.vSize = aStar.board.length;
+        this.sqrH = this.h / this.vSize;
+    }
 
-    const w = c.width;
-    const h = c.height;
+    setViewMode(viewMode) {
+        if (viewMode == 'n' || viewMode == 'h' || viewMode == 'g' || viewMode == 't' || viewMode == 'd') {
+            this.viewMode = viewMode;
+        } 
+    }
 
-    context.clearRect(0, 0, w, h);
-    
-    const vSize = aStar.board.length;
-    const sqrH = h / vSize;
-            
-    for(let y = 0; y < vSize; y++) {
-        for (let x = 0; x < vSize * w / h; x++) {
-            const node = aStar.board[y][x];
+    _fillNode(node, color, text = null) {
+        const padding = 1;
 
-            context.strokeRect(x * sqrH, y * sqrH, sqrH, sqrH);
+        const x = node.x;
+        const y = node.y
 
-            if (node == aStar.initialNode) {
-                fillNode(context, node, sqrH, '#72bcd4', 'I');
-            } else if (node == aStar.finalNode) {
-                fillNode(context, node, sqrH, '#72bcd4', 'F');
-            } else if (node.isWall) {
-                fillNode(context, node, sqrH, 'black');
-            } else if (node.isOpen) {
-                fillNode(context, node, sqrH, 'red', node.totalCost);
-            } else if (node.totalCost != 0) {
-                fillNode(context, node, sqrH, 'green', node.totalCost);
-            }
+        const drawX = x * this.sqrH;
+        const drawY = y * this.sqrH;
 
+        this.context.fillStyle = color;
+
+        this.context.fillRect(drawX, drawY, this.sqrH, this.sqrH);
+        this.context.strokeRect(drawX, drawY, this.sqrH, this.sqrH);
+        
+
+        if (text != null) {
+            text = String(text);
+            this.context.fillStyle = 'black';
+            this.context.font = `${this.sqrH / (text.length)}px Arial`
+            this.context.textAlign='center';
+            this.context.fillText(text, (x * this.sqrH) + this.sqrH / 2, (y * this.sqrH) + this.sqrH * 6/7);
         }
-    }    
+        
+    }
+
+    _getLastNodeDirection(node) {
+        if (node.lastNode == null) {
+            return '-';
+        }
+
+        const lastNode = node.lastNode;
+
+        const xDir = lastNode.x - node.x + 1;
+        const yDir = lastNode.y - node.y + 1;
+
+        const directionsMatrix = [
+            ['2196', '2B06', '2197'],
+            ['2B05', '2D', '27A1'],
+            ['2199', '2B07', '2198'],
+        ];
+
+        return String.fromCharCode(parseInt(directionsMatrix[yDir][xDir], 16));
+    }
+
+    _getViewValue(node) {
+        switch(this.viewMode) {
+            case 'n':
+                return '';
+            case 'h':
+                return node.hCost;
+            case 'g':
+                return node.gCost;
+            case 't':
+                return node.totalCost;
+            case 'd':
+                return this._getLastNodeDirection(node);
+        }
+    }
+
+    drawGrids() {
+        this.context.clearRect(0, 0, this.w, this.h);
+        
+        for (let y = 0; y < this.vSize; y++) {
+            for (let x = 0; x < this.vSize * this.w / this.h; x++) {
+                this.context.strokeRect(x * this.sqrH, y * this.sqrH, this.sqrH, this.sqrH);
+            }
+        }
+    }
+
+    drawFixedPoints() {
+        for (let y = 0; y < this.vSize; y++) {
+            for (let x = 0; x < this.vSize * this.w / this.h; x++) {
+
+                const node = this.aStar.board[y][x];
+
+                if (node == this.aStar.initialNode) {
+                    this._fillNode(node, '#72bcd4', 'I');
+                } else if (node == this.aStar.finalNode) {
+                    this._fillNode(node, '#72bcd4', 'F');
+                } else if (node.isWall) {    
+                    this._fillNode(node, 'black')
+                }
+
+            }
+        }
+    }
+
+    drawOpenNode(node) {
+
+        if (node != this.aStar.initialNode) {
+            this._fillNode(node, 'red', this._getViewValue(node));
+        }
+
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+
+                if ((i != 0 || j != 0) && 
+                this.aStar._isBoardPositionValid(node.x + j, node.y + i)) {
+
+                    const nextNode = this.aStar.board[node.y + i][node.x + j];
+
+                    if (!nextNode.isOpen && !nextNode.isWall && nextNode != this.aStar.finalNode) {
+                        this._fillNode(nextNode, 'green', this._getViewValue(nextNode));
+                    }
+                }
+
+            }
+        }
+
+    }
+
+    redraw() {
+        this.context.clearRect(0, 0, this.w, this.h);
+        
+        for (let y = 0; y < this.vSize; y++) {
+            for (let x = 0; x < this.vSize * this.w / this.h; x++) {
+                const node = this.aStar.board[y][x];
+
+                this.context.strokeRect(x * this.sqrH, y * this.sqrH, this.sqrH, this.sqrH);
+                
+
+                if (node == this.aStar.initialNode) {
+                    this._fillNode(node, '#72bcd4', 'I');
+                } else if (node == this.aStar.finalNode) {
+                    this._fillNode(node, '#72bcd4', 'F');
+                } else if (node.isWall) {
+                    this._fillNode(node, 'black');
+                } else if (node.isOpen) {
+                    this.drawOpenNode(node);
+                }
+            }
+        }
+
+    }
+
 }
