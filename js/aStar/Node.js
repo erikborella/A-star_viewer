@@ -33,10 +33,10 @@ class Node {
 
         const lastNode = this.lastNode;
 
-        this.gCost = euclidianDistance(this, lastNode);
-        this.gCost += lastNode.gCost;
+        this.hCost = euclidianDistance(this, lastNode);
+        this.hCost += lastNode.hCost;
 
-        this.hCost = euclidianDistance(this, finalNode);
+        this.gCost = euclidianDistance(this, finalNode);
 
         this.totalCost = this.gCost + this.hCost;
 
