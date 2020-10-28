@@ -93,6 +93,44 @@ $("#viewsModeForm input").change(function() {
     drawer.drawPathIfComplete();
 });
 
+$("#generateWallsButton").click(function() {
+    let wallsPercentage = $("#percentageRandomGeneratorInput").val();
+
+    if (wallsPercentage < 0 || wallsPercentage > 50) {
+        M.toast({html: 'Invalid percentage number'});
+        return;
+    }
+
+    wallsPercentage /= 100;
+
+    console.log(wallsPercentage);
+    
+
+    const vSize = aStar.board.length;
+    const hSize = aStar.board[0].length;
+
+    const wallsNumber = (vSize * hSize) * wallsPercentage;
+    
+    aStar.erase();
+
+    for (let wallsCount = 0; wallsCount < wallsNumber; wallsCount++) {
+        let x, y;
+
+        do {
+            x = Math.floor(Math.random() * hSize);
+            y = Math.floor(Math.random() * vSize);
+        } while (aStar.board[y][x].isWall || 
+            aStar.board[y][x] == aStar.initialNode || 
+            aStar.board[y][x] == aStar.finalNode);
+
+        aStar.board[y][x].isWall = true;
+
+    }
+
+    drawer.redraw();
+});
+
+
 function init() {
     aStar = new AStar(20, 10, {x: 0, y: 4}, {x: 19, y: 9});
 
