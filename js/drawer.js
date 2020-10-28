@@ -21,7 +21,7 @@ class Drawer {
         this.viewMode = 'n';
     }
 
-    updateSize(aStar) {
+    updateSize() {
         this.aStar = aStar;
 
         this.vSize = aStar.board.length;
@@ -35,8 +35,6 @@ class Drawer {
     }
 
     _fillNode(node, color, text = null) {
-        const padding = 1;
-
         const x = node.x;
         const y = node.y
 
@@ -143,6 +141,16 @@ class Drawer {
             }
         }
 
+    }
+
+    drawPathIfComplete() {
+        if (this.aStar.stepMark == 'end') {
+            const path = this.aStar.getPath();
+
+            for (let i = 1; i < path.length; i++) {
+                this._fillNode(path[i], '#72bcd4', this._getViewValue(path[i]));
+            }
+        }
     }
 
     redraw() {
