@@ -101,10 +101,7 @@ $("#generateWallsButton").click(function() {
         return;
     }
 
-    wallsPercentage /= 100;
-
-    console.log(wallsPercentage);
-    
+    wallsPercentage /= 100;    
 
     const vSize = aStar.board.length;
     const hSize = aStar.board[0].length;
