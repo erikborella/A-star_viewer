@@ -72,9 +72,18 @@ $("#resetAStarButton").click(function() {
     drawer.redraw();
 });
 
+$("#viewsModeForm input").change(function() {
+    const viewMode = $('input[name="viewsModeGroup"]:checked').val();
+    drawer.setViewMode(viewMode);
+    drawer.redraw();
+    drawer.drawPathIfComplete();
+});
+
 function init() {
     aStar = new AStar(20, 10, {x: 0, y: 4}, {x: 19, y: 9});
+
     drawer = new Drawer(aStar, "screenCanvas");
+    drawer.setViewMode('d');
 
     drawer.drawGrids();
     drawer.drawFixedPoints();
@@ -89,6 +98,7 @@ function stepAStar() {
 
     if (status.name == "end") {
         stopAStar();
+        drawer.drawPathIfComplete();
     }
 }
 
