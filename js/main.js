@@ -9,6 +9,11 @@ let stepper = null;
 
 let drawer;
 
+let isLogModeOn = false;
+let logCount = 0;
+
+const MAX_LOG_MESSAGES = 10;
+
 $(document).ready(function() {
     $('.tooltipped').tooltip();
     $("#continuousControls").hide();
@@ -42,6 +47,14 @@ $("#switchEditMode").change(function() {
     }
 });
 
+$("#switchUseLog").change(function() {
+    isLogModeOn = $(this).prop("checked");
+
+    if (!isLogModeOn) {
+        clearLogText();
+    }
+});
+
 $("#continuousStepsRange").change(function() {
     stepsPerSecond = $(this).val();
     stepsPerSecond = parseFloat(stepsPerSecond);
@@ -65,11 +78,12 @@ $("#stopStepperButton").click(function() {
 });
 
 $("#resetAStarButton").click(function() {
-
     stopAStar();
 
     aStar.reset();
     drawer.redraw();
+
+    clearLogText();
 });
 
 $("#viewsModeForm input").change(function() {
@@ -89,17 +103,57 @@ function init() {
     drawer.drawFixedPoints();
 }
 
+function logStep(status) {
+    switch (status.name) {
+        case "sn-i":
+            logText = logText.replace(/^/, `Setting initial node as working node\n\n`);
+            break;
+
+        case "on":
+            logText = logText.replace(/^/, `Opening adjacents nodes\n\n`);
+            break;
+
+        case "cfa":
+            logText = logText.replace(/^/, `Checking if final node is adjcent\n` + 
+            `status: ${(status.status) ? "found":"not found"}\n\n`);
+            break;
+
+        case "fmn":
+            const x = status.status.x;
+            const y = status.status.y;
+            logText = logText.replace(/^/, `Searching for best node\nfound at: x=${x} y=${y}\n\n`);
+            break;
+        
+        case "end":
+            logText = logText.replace(/^/, `End\n\n`);
+            break;
+    }
+
+    setLogText();
+}
+
 function stepAStar() {
-    const status = aStar.step();
+    let status;
+
+    if (isLogModeOn) {
+        status = aStar.step();
+        logStep(status);
+    } else {
+        status = aStar.step();
+        while (status.name != "on" && status.name != "end") {
+            status = aStar.step();
+        }
+    }
 
     if (status.name == "on") {
         drawer.drawOpenNode(status.status.of);
     }
-
+        
     if (status.name == "end") {
         stopAStar();
         drawer.drawPathIfComplete();
     }
+
 }
 
 function runAStar() {
@@ -118,6 +172,17 @@ function stopAStar() {
 }
 
 function setLogText() {
+    if (logCount == MAX_LOG_MESSAGES) {
+        logText = "";
+        logCount = 0;
+    }
+
     $("#logTextarea").text(logText);
+    logCount++;
     M.textareaAutoResize($('#logTextarea'));
+}
+
+function clearLogText() {
+    logText = "";
+    setLogText();
 }
