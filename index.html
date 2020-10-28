@@ -24,30 +24,27 @@
                 <div id="runModeDiv" class="row">
                     <div class="col s3 offset-s1">
                         <h6>View Mode</h6>
-                        <label title="Distance to initial node">
-                            <input checked class="with-gap" type="radio" name="viewsModeGroup">
-                            <span>Normal</span>
-                        </label>
-                        <br>
-                        <label title="Distance to initial node">
-                            <input class="with-gap" type="radio" name="viewsModeGroup">
-                            <span>H Cost</span>
-                        </label>
-                        <br>
-                        <label title="Euclidian distance to final node">
-                            <input class="with-gap" type="radio" name="viewsModeGroup">
-                            <span>G Cost</span>
-                        </label>
-                        <br>
-                        <label title="H Cost + G Cost">
-                            <input class="with-gap" type="radio" name="viewsModeGroup">
-                            <span>Total Cost</span>
-                        </label>
-                        <br>
-                        <label title="Direction to previous node">
-                            <input class="with-gap" type="radio" name="viewsModeGroup">
-                            <span>Direction</span>
-                        </label>
+                        <form id="viewsModeForm" action="#">
+                            <label title="Direction to previous node">
+                                <input checked class="with-gap" type="radio" name="viewsModeGroup" value="d">
+                                <span>Direction</span>
+                            </label>
+                            <br>
+                            <label title="H Cost + G Cost">
+                                <input class="with-gap" type="radio" name="viewsModeGroup" value="t">
+                                <span>Total Cost</span>
+                            </label>
+                            <br>
+                            <label title="Euclidian distance to final node">
+                                <input class="with-gap" type="radio" name="viewsModeGroup" value="g">
+                                <span>G Cost</span>
+                            </label>
+                            <br>
+                            <label title="Distance to initial node">
+                                <input class="with-gap" type="radio" name="viewsModeGroup" value="h">
+                                <span>H Cost</span>
+                            </label>
+                        </form>
                     </div>
                     <div class="col s4 center">
                         <h6>Controls</h6>
@@ -69,7 +66,7 @@
                         <div id="continuousControls">
                             <p class="range-field">
                                 Steps per second
-                                <input type="range" id="continuousStepsRange" min="1" max="100" value="1"/>
+                                <input type="range" id="continuousStepsRange" min="1" max="250" value="1"/>
                             </p>
                             <a class="waves-effect waves-green btn-small white black-text" id="runStepperButton">
                                 <i class="material-icons right">play_arrow</i>
@@ -88,6 +85,14 @@
                     </div>
                     <div class="col s3 offset-s1">
                         <h6>Log</h6>
+                        <div class="switch">
+                            <label>
+                                Off
+                                <input type="checkbox" id="switchUseLog">
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
                         <div class="input-field">
                             <textarea id="logTextarea" class="materialize-textarea"></textarea>
                         </div>                  
