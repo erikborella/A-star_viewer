@@ -194,8 +194,25 @@ class AStar {
                     node.totalCost = 0;
                     node.isOpen = false;
                     node.lastNode = null;
-
                 }
+
+                this.stepMark = 'sn-i';
+                this.workingNode = null;
+            }
+        }
+    }
+
+    erase() {
+        for (let y = 0; y < this.board.length; y++) {
+            for (let x = 0; x < this.board[0].length; x++) {
+                const node = this.board[y][x];
+
+                node.gCost = 0;
+                node.hCost = 0
+                node.totalCost = 0;
+                node.isOpen = false;
+                node.isWall = false;
+                node.lastNode = null;
 
                 this.stepMark = 'sn-i';
                 this.workingNode = null;
