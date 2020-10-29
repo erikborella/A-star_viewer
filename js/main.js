@@ -150,6 +150,15 @@ $("#screenCanvas").click(function(event) {
     }
 });
 
+$("#changeSizeButton").click(function() {
+    const size = $("#newSizeInput").val();
+
+    if (size > 0) {
+        aStar = new AStar(size * 2, size, {x: 0, y: 0}, {x: (size * 2) - 1, y: size - 1 });
+        drawer.updateSize();
+        drawer.redraw();
+    }
+});
 
 function init() {
     aStar = new AStar(20, 10, {x: 0, y: 0}, {x: 19, y: 9});

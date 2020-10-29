@@ -100,7 +100,7 @@
                 </div>
                 <div id="editModeDiv">
                     <div class="row">
-                        <div class="col s3 offset-s3">
+                        <div class="col s3 offset-s1">
                             <h6>Node editor</h6>
                             <label title="Where the maze starts">
                                 <input class="with-gap" type="radio" name="editorNodeGroup" value="i">
@@ -116,7 +116,7 @@
                                 <span>Wall</span>
                             </label>
                         </div>
-                        <div class="col s3 center">
+                        <div class="col s4 center">
                             <h6>Randomize Walls</h6>
                             <div class="input-field">
                                 <input id="percentageRandomGeneratorInput" type="number" min="0" max="50" class="validate" placeholder="use 0 to clear">
@@ -125,6 +125,17 @@
                             <a class="waves-effect waves-yellow btn-small white black-text" id="generateWallsButton">
                                 <i class="material-icons right">loop</i>
                                 Generate    
+                            </a>
+                        </div>
+                        <div class="col s3 offset-s1 center">
+                            <h6>Resize</h6>
+                            <div class="input-field">
+                                <input id="newSizeInput" type="number">
+                                <label for="newSizeInput">New vertical size</label>
+                            </div>
+                            <a class="waves-effect waves-green btn-small white black-text" id="changeSizeButton">
+                                <i class="material-icons right">aspect_ratio</i>
+                                Resize
                             </a>
                         </div>
                     </div>
