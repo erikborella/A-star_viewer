@@ -137,10 +137,12 @@ $("#screenCanvas").click(function(event) {
         const node = drawer.getClickedNode(event.pageX, event.pageY);
 
         if (editMode == "i") {
+            node.isWall = false;
             aStar.initialNode = node;
         } else if (editMode == "f") {
+            node.isWall = false;
             aStar.finalNode = node;
-        } else if (editMode == "w") {
+        } else if (editMode == "w" && node != aStar.initialNode && node != aStar.finalNode) {
             node.isWall = !node.isWall;
         }
 
