@@ -127,6 +127,27 @@ $("#generateWallsButton").click(function() {
     drawer.redraw();
 });
 
+$("#screenCanvas").click(function(event) {
+    if (isEditModeOn) {
+        if (aStar.stepMark != 'sn-i') {
+            aStar.reset();
+        }
+
+        const editMode = $('input[name="editorNodeGroup"]:checked').val();
+        const node = drawer.getClickedNode(event.pageX, event.pageY);
+
+        if (editMode == "i") {
+            aStar.initialNode = node;
+        } else if (editMode == "f") {
+            aStar.finalNode = node;
+        } else if (editMode == "w") {
+            node.isWall = !node.isWall;
+        }
+
+        drawer.redraw();
+    }
+});
+
 
 function init() {
     aStar = new AStar(20, 10, {x: 0, y: 4}, {x: 19, y: 9});
