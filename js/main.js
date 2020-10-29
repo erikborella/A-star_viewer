@@ -152,7 +152,7 @@ $("#screenCanvas").click(function(event) {
 
 
 function init() {
-    aStar = new AStar(20, 10, {x: 0, y: 4}, {x: 19, y: 9});
+    aStar = new AStar(20, 10, {x: 0, y: 0}, {x: 19, y: 9});
 
     drawer = new Drawer(aStar, "screenCanvas");
     drawer.setViewMode('d');
