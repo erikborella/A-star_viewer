@@ -174,12 +174,19 @@ class AStar {
 
             case "fmn":
                 const node = this.findNodeMinorCost();
-                this.workingNode = node;
-                this.stepMark = "on";
+                if (node == null) {
+                    this.stepMark = "end-ns";
+                } else {
+                    this.workingNode = node;
+                    this.stepMark = "on";
+                }
                 return {'name': 'fmn', 'status': node};
 
             case "end":
                 return {'name': 'end', 'status': 'end'};
+
+            case "end-ns":
+                return {'name': 'end-ns', 'status': 'No solution'};
         }
     }
 

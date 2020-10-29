@@ -175,13 +175,21 @@ function logStep(status) {
             break;
 
         case "fmn":
-            const x = status.status.x;
-            const y = status.status.y;
-            logText = logText.replace(/^/, `Searching for best node\nfound at: x=${x} y=${y}\n\n`);
+            if (status.status == null) {
+                logText = logText.replace(/^/, `Searching for best node\nNot found\n\n`);
+            } else {
+                const x = status.status.x;
+                const y = status.status.y;
+                logText = logText.replace(/^/, `Searching for best node\nfound at: x=${x} y=${y}\n\n`);
+            }
             break;
         
         case "end":
             logText = logText.replace(/^/, `End\n\n`);
+            break;
+
+        case "end-ns":
+            logText = logText.replace(/^/, `No solution found\n\n`);
             break;
     }
 
@@ -196,7 +204,7 @@ function stepAStar() {
         logStep(status);
     } else {
         status = aStar.step();
-        while (status.name != "on" && status.name != "end") {
+        while (status.name != "on" && status.name != "end" && status.name != "end-ns") {
             status = aStar.step();
         }
     }
@@ -205,7 +213,7 @@ function stepAStar() {
         drawer.drawOpenNode(status.status.of);
     }
         
-    if (status.name == "end") {
+    if (status.name == "end" || status.name == "end-ns") {
         stopAStar();
         drawer.drawPathIfComplete();
     }
