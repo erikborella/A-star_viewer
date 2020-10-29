@@ -177,4 +177,23 @@ class Drawer {
 
     }
 
+    getClickedNode(pageX, pageY) {
+        let x = Math.floor((pageX - this.c.offsetLeft) / this.sqrH);
+        let y = Math.floor((pageY - this.c.offsetTop) / this.sqrH);
+
+        if (x < 0) {
+            x = 0
+        } else if (x > this.aStar.board[0].length - 1) {
+            x = this.aStar.board[0].length - 1;
+        }
+
+        if (y < 0) {
+            y = 0
+        } else if (y > this.aStar.board.length - 1) {
+            y = this.aStar.board.length - 1;
+        }
+    
+        return this.aStar.board[y][x];        
+    }
+
 }
