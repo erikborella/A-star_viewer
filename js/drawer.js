@@ -150,6 +150,9 @@ class Drawer {
             for (let i = 1; i < path.length; i++) {
                 this._fillNode(path[i], '#72bcd4', this._getViewValue(path[i]));
             }
+        } else if(this.aStar.stepMark == 'end-ns') {
+            this._fillNode(this.aStar.initialNode, '#ef9a9a', 'I');
+            this._fillNode(this.aStar.finalNode, '#ef9a9a', 'F');
         }
     }
 
