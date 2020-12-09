@@ -12,11 +12,12 @@ let drawer;
 let isLogModeOn = false;
 let logCount = 0;
 
-const MAX_LOG_MESSAGES = 10;
+const MAX_LOG_MESSAGES = 5;
 
 $(document).ready(function() {
     $('.tooltipped').tooltip();
-    $("#continuousControls").hide();
+    $("#stepControls").hide();
+    $("#stopStepperButton").hide();
     $("#editModeDiv").hide();
 
     init();
@@ -232,6 +233,9 @@ function stepAStar() {
 }
 
 function runAStar() {
+    $("#runStepperButton").hide();
+    $("#stopStepperButton").show();
+
     if (stepper == null) {
         stepper = setInterval(() => {
             stepAStar();
@@ -240,6 +244,9 @@ function runAStar() {
 }
 
 function stopAStar() {
+    $("#stopStepperButton").hide();
+    $("#runStepperButton").show();
+
     if (stepper != null) {
         clearInterval(stepper);
         stepper = null;
@@ -248,10 +255,11 @@ function stopAStar() {
 
 function setLogText() {
     if (logCount == MAX_LOG_MESSAGES) {
-        logText = "";
+        const preLogText = logText.split("\n");
+        logText = preLogText[0] + "\n\n" + preLogText[1];
         logCount = 0;
     }
-
+    
     $("#logTextarea").text(logText);
     logCount++;
     M.textareaAutoResize($('#logTextarea'));
